@@ -1,0 +1,35 @@
+# ✅ Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+*.db
+*.pem
+*.bak
+*.swp
+
+# ✅ Virtual Environment
+.venv/
+env/
+venv/
+
+# ✅ Environment Variables & Secrets
+.env
+.env.*
+
+# ✅ Testing & Coverage
+htmlcov/
+.tox/
+.coverage
+.cache/
+pytest_cache/
+
+# ✅ Jupyter Notebooks (if used)
+.ipynb_checkpoints/
+
+# ✅ Build Artifacts
+dist/
+build/
+*.egg-info/
