@@ -1,114 +1,84 @@
-# 📝 tasks.md — Git-to-Blog AI Project
+# 📝 git-to-blog — Project Roadmap
 
-## 🎯 Goal  
-Automatically generate and publish blog posts based on GitHub commit activity using Langchain, FastAPI, and Next.js.
+## 🎯 Goal
 
----
-
-## ✅ Phase 1: Project Setup
-
-### 📌 Week 1 – Setup Foundations
-
-#### Backend (FastAPI + Langchain)
-- [ ] Initialize FastAPI project (`fastapi-git-blog-ai`)
-- [ ] Set up GitHub webhook endpoint: `POST /github/webhook`
-- [ ] Handle GitHub push event JSON payload
-- [ ] Extract the following:
-  - [ ] Repo name
-  - [ ] Commit SHA(s)
-  - [ ] Commit messages
-  - [ ] Git diff via GitHub API
-- [ ] Authenticate GitHub API via Personal Access Token (PAT)
-- [ ] Setup basic logging and error handling
-
-#### Frontend (Next.js - `rajanbuilds.com`)
-- [ ] Initialize Next.js project (or reuse your personal site)
-- [ ] Add MDX support using `next-mdx-remote` or `contentlayer`
-- [ ] Create dynamic route: `/blog/[repo]/[slug].tsx`
-- [ ] Add blog card layout with TailwindCSS + shadcn/ui
-- [ ] Build blog home page: `/blog`
+Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a blog post using Langchain/Langraph, FastAPI, and OpenAI, and publish the result to your blog website.
 
 ---
 
-## 🧠 Phase 2: AI Commit Summarizer
+## ✅ Phase 1: Foundations & Webhook
 
-### 📌 Week 2 – AI Logic with Langchain
-
-- [ ] Install and configure Langchain
-- [ ] Write prompt templates for:
-  - [ ] Summarizing commit messages
-  - [ ] Explaining what was built/changed
-  - [ ] Formatting output into markdown blog post
-- [ ] Create Langchain chain or function:
-  - [ ] Input: commit messages, diffs
-  - [ ] Output: `.mdx` file
-- [ ] Parse content into:
-  - [ ] Blog Title
-  - [ ] Meta description
-  - [ ] Tags
-  - [ ] MDX body
+- [x] Initialize FastAPI project
+- [x] Set up GitHub webhook endpoint: `POST /github/webhook`
+- [x] Parse and store incoming push event payloads (repo, commit SHAs, messages, diffs)
+- [ ] Store received commits in a database or temporary storage for aggregation
 
 ---
 
-## 💾 Phase 3: Saving Blog Posts
+## 🕒 Phase 2: Daily Commit Aggregation
 
-### 📌 Week 3 – Blog Storage Options
-
-- [ ] Choose one of the following:
-  - [ ] Push `.mdx` file to GitHub content repo
-  - [ ] Upload `.mdx` to AWS S3
-  - [ ] Store blog content in Postgres
-- [ ] Automate file upload from FastAPI backend
-- [ ] Trigger blog rebuild (if using GitHub + Vercel)
+- [ ] Implement a scheduled job (e.g., cron, APScheduler) to run every 24 hours
+- [ ] Aggregate all commits received in the last 24 hours, grouped by repo (and optionally by author)
+- [ ] Fetch additional commit data/diffs from GitHub API as needed
 
 ---
 
-## 🌐 Phase 4: Displaying Blogs
+## 🤖 Phase 3: AI Summarization
 
-- [ ] Configure Next.js to fetch or import `.mdx` content
-- [ ] Render blog using MDX provider
-- [ ] Add share buttons, author bio, and date
-- [ ] Display commit metadata (date, repo, link to GitHub)
-
----
-
-## 🚀 Phase 5: Finishing Touches
-
-- [ ] Deploy FastAPI backend (Render, EC2, or Railway)
-- [ ] Set up webhook with GitHub (test on one of your repos)
-- [ ] Deploy Next.js frontend to Vercel
-- [ ] Polish UI with animations, icons, footer
-- [ ] Add `/blog/rss.xml` feed (optional)
+- [ ] Integrate Langchain/Langraph and OpenAI
+- [ ] Design prompt templates for summarizing daily commit activity into a blog post
+- [ ] Generate blog post content (title, summary, tags, MDX body) from aggregated commits
 
 ---
 
-## 🧪 Testing Plan
+## 💾 Phase 4: Blog Post Storage & Publishing
 
-- [ ] Test with multiple repos and commit styles
-- [ ] Validate blog accuracy against commit content
-- [ ] Test edge cases (non-code commits, large diffs)
-
----
-
-## 🎉 Stretch Goals (Optional)
-- [ ] Add support for image upload (screenshots, diagrams)
-- [ ] Add search and filter on blog page
-- [ ] Schedule weekly AI blog digests
-- [ ] Deploy as a SaaS for devs or teams
+- [ ] Choose storage method:
+  - [ ] Push `.mdx` file to a content repo (GitHub)
+  - [ ] Upload to S3 or database
+- [ ] Automate publishing/upload from FastAPI backend
+- [ ] Trigger blog rebuild or notify frontend (if needed)
 
 ---
 
-## 📅 Timeline (Example)
-| Day  | Task                                     |
-|------|------------------------------------------|
-| Day 1| Setup FastAPI & Next.js project structure |
-| Day 2| GitHub webhook + API integration         |
-| Day 3| Langchain summarizer logic               |
-| Day 4| Format & save `.mdx` files               |
-| Day 5| Blog display in frontend                 |
-| Day 6| Deployment + GitHub webhook setup        |
-| Day 7| Final polish & testing                   |
+## 🌐 Phase 5: Blog Website Integration
+
+- [ ] Configure Next.js (or your blog platform) to fetch/import new blog posts
+- [ ] Render blog post with commit metadata, author, date, and links
+- [ ] Add blog home page and individual post pages
 
 ---
 
-**Let me know** if you want this broken into GitHub issues or a Notion board!
+## 🚀 Phase 6: Automation, Testing & Polish
+
+- [ ] End-to-end test: GitHub push → webhook → aggregation → AI summary → blog post → website
+- [ ] Handle edge cases (no commits, non-code commits, large diffs)
+- [ ] Add logging, error handling, and notifications
+- [ ] Polish UI/UX, add RSS, share buttons, etc.
+
+---
+
+## 🧠 Stretch Goals
+
+- [ ] Support multiple repos/authors
+- [ ] Weekly/monthly digests
+- [ ] Image/media support in blog posts
+- [ ] SaaS/multi-user support
+
+---
+
+## 🗓️ Example Timeline
+
+| Day   | Task                                      |
+| ----- | ----------------------------------------- |
+| Day 1 | FastAPI setup, webhook, commit storage    |
+| Day 2 | Aggregation logic, GitHub API integration |
+| Day 3 | Langchain/OpenAI summarizer               |
+| Day 4 | Blog post generation & storage            |
+| Day 5 | Frontend integration                      |
+| Day 6 | Automation, polish, deployment            |
+| Day 7 | Final testing & stretch goals             |
+
+---
+
+**Let me know if you want this broken into GitHub issues, a Notion board, or want help with any specific phase!**

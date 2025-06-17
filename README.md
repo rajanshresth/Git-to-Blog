@@ -50,7 +50,7 @@ Automatically generate beautiful blog posts from your GitHub commit activity usi
 ```bash
 uv venv
 source .venv/bin/activate  # or .venv/Scripts/activate on Windows
-uv pip install -r uv.toml
+uv pip install -r pyproject.toml
 
 uvicorn app.main:app --reload
 ```
