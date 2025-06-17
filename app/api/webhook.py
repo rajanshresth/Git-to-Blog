@@ -6,7 +6,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Request, HTTPException, Header, status
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, HttpUrl
 
 # Load environment variables
 load_dotenv()
@@ -19,7 +19,7 @@ router = APIRouter()
 
 # Get webhook secret from environment variable
 WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET")
-print(f'WEBHOOK: {WEBHOOK_SECRET}')
+
 if not WEBHOOK_SECRET:
     raise RuntimeError("GITHUB_WEBHOOK_SECRET is not set in environment variables.")
 
@@ -56,8 +56,7 @@ class WebhookPayload(BaseModel):
 def verify_signature(payload_body: bytes, signature_header: str) -> bool:
     if WEBHOOK_SECRET is None:
         raise RuntimeError("GITHUB_WEBHOOK_SECRET is not set in environment variables.")
-    print("Secret:", repr(WEBHOOK_SECRET))
-    print("Signature header:", signature_header)
+
     if not signature_header:
         logger.warning("No signature header provided.")
         return False
@@ -77,8 +76,6 @@ def verify_signature(payload_body: bytes, signature_header: str) -> bool:
         payload_body,
         hashlib.sha256
     ).hexdigest()
-    print("Expected signature:", expected_signature)
-    print("Payload bytes:", payload_body)
 
     is_valid = hmac.compare_digest(expected_signature, signature)
     if not is_valid:
