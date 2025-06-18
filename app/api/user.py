@@ -1,31 +1,43 @@
 # handles user-related endpoint:
 #   list repos, select repos, profile, etc.
 
-
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, delete
+from app.db.session import get_db
+from app.db.models import User, TrackedRepo
 import httpx
 
 router = APIRouter()
 
-# Dependency to get current user's access token (implement this for your auth/session system)
-def get_current_user_token():
-    # TODO: Implement actual user session/token retrieval
-    return "user_access_token"
-
 @router.get('/user/repos')
-async def list_repo(token: str = Depends(get_current_user_token)):
+async def list_repos(user_id: int, db: AsyncSession = Depends(get_db)):
+    # Fetch user from DB
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    # Fetch repos from GitHub
     async with httpx.AsyncClient() as client:
-        response = await client.get(
+        resp = await client.get(
             "https://api.github.com/user/repos",
-            headers={"Authorization": f"token {token}"}
+            headers={"Authorization": f"token {user.github_access_token}"}
         )
-        if response.status_code != 200:
-            raise HTTPException(status_code=400, detail="Failed to fetch repos")
-        return response.json()
+        if resp.status_code != 200:
+            raise HTTPException(status_code=400, detail="Failed to fetch repos from GitHub.")
+        return resp.json()
 
-@router.post("/user/select-repos")
-async def select_repos(selected_repos: list, token: str = Depends(get_current_user_token)):
-    # TODO: Store selected repos in your database, associated with the user
-    print(f'Selected Repos: {select_repos}')
-    print(f'token: {token}')
-    return {"message": "Repositories selected", "repos": selected_repos}
+@router.post('/user/select-repos')
+async def select_repos(user_id: int, selected_repos: list, db: AsyncSession = Depends(get_db)):
+    # Remove old tracked repos
+    await db.execute(delete(TrackedRepo).where(TrackedRepo.user_id == user_id))
+    # Add new tracked repos
+    for repo in selected_repos:
+        tracked = TrackedRepo(
+            user_id=user_id,
+            repo_id=str(repo["id"]),
+            repo_name=repo["name"]
+        )
+        db.add(tracked)
+    await db.commit()
+    return {"message": "Repositories selected"}
