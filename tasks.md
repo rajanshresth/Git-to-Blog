@@ -2,23 +2,25 @@
 
 ## 🎯 Goal
 
-Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a blog post using Langchain/Langraph, FastAPI, and OpenAI, and publish the result to your blog website.
+Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a blog post using Langchain/Langraph, FastAPI, and OpenAI, and publish the result to your blog website. Support both webhook and OAuth-based GitHub integration for scalable, multi-repo, multi-user tracking.
 
 ---
 
-## ✅ Phase 1: Foundations & Webhook
+## ✅ Phase 1: Foundations & Integration
 
 - [x] Initialize FastAPI project
-- [x] Set up GitHub webhook endpoint: `POST /github/webhook`
-- [x] Parse and store incoming push event payloads (repo, commit SHAs, messages, diffs)
-- [ ] Store received commits in a database or temporary storage for aggregation
+- [x] Set up GitHub webhook endpoint: `POST /github/webhook` (optional, for repos where you control settings)
+- [ ] Implement GitHub OAuth flow for user authentication and repo access
+- [ ] Store user OAuth tokens securely
+- [ ] Allow users to select which repositories to track
 
 ---
 
 ## 🕒 Phase 2: Daily Commit Aggregation
 
 - [ ] Implement a scheduled job (e.g., cron, APScheduler) to run every 24 hours
-- [ ] Aggregate all commits received in the last 24 hours, grouped by repo (and optionally by author)
+- [ ] For each connected user, fetch all commits from selected repos in the last 24 hours using GitHub API
+- [ ] Aggregate commits by repo (and optionally by author)
 - [ ] Fetch additional commit data/diffs from GitHub API as needed
 
 ---
@@ -49,9 +51,18 @@ Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a b
 
 ---
 
-## 🚀 Phase 6: Automation, Testing & Polish
+## 👤 Phase 6: User Dashboard & Management
 
-- [ ] End-to-end test: GitHub push → webhook → aggregation → AI summary → blog post → website
+- [ ] Build a dashboard for users to:
+  - [ ] Connect/disconnect GitHub account
+  - [ ] Select repositories to track
+  - [ ] View and manage generated blog posts
+
+---
+
+## 🚀 Phase 7: Automation, Testing & Polish
+
+- [ ] End-to-end test: GitHub OAuth → aggregation → AI summary → blog post → website
 - [ ] Handle edge cases (no commits, non-code commits, large diffs)
 - [ ] Add logging, error handling, and notifications
 - [ ] Polish UI/UX, add RSS, share buttons, etc.
@@ -69,15 +80,15 @@ Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a b
 
 ## 🗓️ Example Timeline
 
-| Day   | Task                                      |
-| ----- | ----------------------------------------- |
-| Day 1 | FastAPI setup, webhook, commit storage    |
-| Day 2 | Aggregation logic, GitHub API integration |
-| Day 3 | Langchain/OpenAI summarizer               |
-| Day 4 | Blog post generation & storage            |
-| Day 5 | Frontend integration                      |
-| Day 6 | Automation, polish, deployment            |
-| Day 7 | Final testing & stretch goals             |
+| Day   | Task                                          |
+| ----- | --------------------------------------------- |
+| Day 1 | FastAPI setup, OAuth, webhook, commit storage |
+| Day 2 | Aggregation logic, GitHub API integration     |
+| Day 3 | Langchain/OpenAI summarizer                   |
+| Day 4 | Blog post generation & storage                |
+| Day 5 | Frontend integration                          |
+| Day 6 | Automation, polish, deployment                |
+| Day 7 | Final testing & stretch goals                 |
 
 ---
 
