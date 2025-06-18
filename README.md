@@ -8,11 +8,13 @@ Automatically generate beautiful blog posts from your GitHub commit activity usi
 
 ## ✨ Features
 
-- 🔁 GitHub Webhook listener (FastAPI)
-- 🧠 AI-powered commit summarization (Langchain)
-- 📝 Generates `.mdx` blog posts automatically
+- 🔑 GitHub OAuth integration: connect your account and select which repos to track
+- 🔁 (Optional) GitHub Webhook listener for real-time updates on repos you control
+- 🧠 AI-powered daily commit summarization (Langchain)
+- 📝 Generates a single `.mdx` blog post per user per day, summarizing all commit activity
 - 🌐 Dynamic frontend rendering with Next.js
 - ☁️ MDX storage via GitHub, or SQLite
+- 👥 Multi-user, multi-repo support
 
 ---
 
@@ -34,12 +36,13 @@ Automatically generate beautiful blog posts from your GitHub commit activity usi
 
 ## 🚀 How It Works
 
-1. GitHub push triggers webhook
-2. FastAPI receives payload and fetches diffs
-3. Langchain summarizes code changes
-4. `.mdx` file is generated with title, tags, and meta
-5. File is saved (GitHub/SQLite)
-6. Next.js dynamically renders the post
+1. User connects their GitHub account via OAuth and selects repositories to track
+2. (Optional) GitHub webhook triggers for real-time updates on selected repos
+3. FastAPI backend fetches all commits for each user daily
+4. Langchain summarizes daily code changes into a single blog post
+5. `.mdx` file is generated with title, tags, and meta
+6. File is saved (GitHub/SQLite)
+7. Next.js dynamically renders the post
 
 ---
 
