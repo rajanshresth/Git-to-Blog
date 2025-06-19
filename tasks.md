@@ -11,7 +11,7 @@ Aggregate all GitHub commit pushes for a 24-hour period, summarize them into a b
 - [x] Initialize FastAPI project
 - [x] Set up GitHub webhook endpoint: `POST /github/webhook` (optional, for repos where you control settings)
 - [x] Implement GitHub OAuth flow for user authentication and repo access
-- [ ] Store user OAuth tokens securely
+- [x] Store user OAuth tokens securely
 - [x] Allow users to select which repositories to track
 
 ---

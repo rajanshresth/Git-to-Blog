@@ -102,6 +102,6 @@ async def logout(response: Response, user_id: int = Cookie(None), db: AsyncSessi
             user.github_access_token = ""
             await db.commit()
     # Always delete cookie and redirect, even if not logged in
-    response = RedirectResponse(url="/")
+    response = RedirectResponse(url="/auth/github/login")
     response.delete_cookie(SESSION_COOKIE_NAME)
     return response
