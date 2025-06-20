@@ -1,0 +1,23 @@
+# Local development Dockerfile
+FROM python:3.11-slim
+
+# Install uv and Uvicorn
+RUN pip install --upgrade pip && pip install uv uvicorn
+
+WORKDIR /app
+
+# Copy dependency files first for caching
+COPY pyproject.toml .
+COPY uv.lock .
+
+# Install dependencies
+RUN uv sync --system --locked || uv pip install --system .
+
+# Copy the rest of your code
+COPY . .
+
+# Expose port for FastAPI
+EXPOSE 8000
+
+# Start FastAPI with Uvicorn and hot reload
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

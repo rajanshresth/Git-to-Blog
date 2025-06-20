@@ -1,15 +1,13 @@
-# pyproject.toml
 [project]
 name = "git-to-blog"
 version = "0.1.0"
-description = "Automatically generate blog posts from GitHub commit activity."
-authors = [
-    { name = "Rajan Shrestha", email = "shrestharajan726@gmail.com" }
-]
-requires-python = ">=3.10"
+description = "A FastAPI app for summarizing GitHub commits into blog posts"
+authors = [{ name = "Rajan Shrestha", email = "shrestharajan726@gmail.com" }]
 dependencies = [
+    "alembic==1.16.2",
     "annotated-types==0.7.0",
     "anyio==4.9.0",
+    "asyncpg==0.30.0",
     "certifi==2025.6.15",
     "charset-normalizer==3.4.2",
     "click==8.2.1",
@@ -27,14 +25,19 @@ dependencies = [
     "langchain-core==0.3.65",
     "langchain-text-splitters==0.3.8",
     "langsmith==0.3.45",
+    "mako==1.3.10",
+    "mangum==0.19.0",
+    "markupsafe==3.0.2",
     "orjson==3.10.18",
     "packaging==24.2",
     "pluggy==1.6.0",
+    "psycopg2-binary==2.9.10",
     "pydantic==2.11.7",
     "pydantic-core==2.33.2",
     "pygments==2.19.1",
     "pytest==8.4.0",
     "python-dotenv==1.1.0",
+    "python-multipart==0.0.20",
     "pyyaml==6.0.2",
     "requests==2.32.4",
     "requests-toolbelt==1.0.0",
@@ -46,6 +49,6 @@ dependencies = [
     "typing-inspection==0.4.1",
     "urllib3==2.4.0",
     "uvicorn==0.34.3",
-    "zstandard==0.23.0",
-    "asyncpg==0.30.0"
+    "zstandard==0.23.0"
 ]
+requires-python = ">=3.11"
